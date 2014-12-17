@@ -5,6 +5,7 @@
 
 #CHANGE TO Tkinter FOR PYTHON 2
 from tkinter import *
+import new_food_sql as sql
 
 class NewFood:
 	
@@ -15,8 +16,13 @@ class NewFood:
 		
 		self.entries(frame)
 		
-		e = Button(frame, text="Enter")
+		e = Button(frame, text="Enter", command=self.insert)
+		
 		e.grid(row=2, column=5, padx=30)
+		
+	def insert(self):
+		sql.insert_food(6, "grams", 12, 23, "daily %")
+		
 		
 	#sets up the labels row
 	def new_food_labels(self, frame):
@@ -51,9 +57,9 @@ class NewFood:
 		vitA.grid(row=2, column=3)
 		
 		vit_unit = StringVar(frame)
-		vit_unit.set("Daily %")
+		vit_unit.set("daily %")
 		
-		drop = OptionMenu(frame, vit_unit, "Daily %", "milligrams")
+		drop = OptionMenu(frame, vit_unit, "daily %", "milligrams")
 		drop.grid(row=2, column=4)
 		
 		
@@ -65,7 +71,4 @@ new_food = NewFood(root)
 
 mainloop()
 root.mainloop()
-root.destroy() #is this good?  On Mac at least it throws an error if
-# i close with the x button b/c this can't be destroyed, since the button
-#destroyed it
-#UPDATE: IT DOES THIS ON WINDOWS TOO!!
+#root.destroy() ONLY USE IF YOU MAKE YOUR OWN EXIT HANDLER!!
