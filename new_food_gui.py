@@ -1,6 +1,8 @@
 #Joey Smith and Minerva Chen
 #12/16/14
 
+#add Joules in for those crazy foreigners hahaha
+
 #CHANGE TO Tkinter FOR PYTHON 2
 from tkinter import *
 
@@ -14,7 +16,7 @@ class NewFood:
 		self.entries(frame)
 		
 		e = Button(frame, text="Enter")
-		e.grid(row=2, column=5)
+		e.grid(row=2, column=5, padx=30)
 		
 	#sets up the labels row
 	def new_food_labels(self, frame):
@@ -28,7 +30,7 @@ class NewFood:
 		cal.grid(row=1, column=2)
 		
 		vitA = Label(frame, text="vitamin A")
-		vitA.grid(row=1, column=4)
+		vitA.grid(row=1, column=3)
 	
 	# sets up the entries row
 	def entries(self, frame):
@@ -39,19 +41,20 @@ class NewFood:
 		size_unit.set("grams")
 		
 		drop = OptionMenu(frame, size_unit, "grams", "ounces")
-		drop.grid(row=2, column=1, padx=10)
+		drop.grid(row=2, column=1)
 		
 		cal = Entry(frame)
-		cal.grid(row=2, column=2, padx=10)
+		cal.grid(row=2, column=2, padx=30)
 		
-		unit2 = StringVar(frame)
-		unit2.set("Daily %")
 		
-		drop = OptionMenu(frame, unit2, "Daily %", "milligrams")
-		drop.grid(row=2, column=3, padx=10)
+		vitA = Entry(frame)
+		vitA.grid(row=2, column=3)
 		
-		e = Entry(frame)
-		e.grid(row=2, column=4, padx=10)
+		vit_unit = StringVar(frame)
+		vit_unit.set("Daily %")
+		
+		drop = OptionMenu(frame, vit_unit, "Daily %", "milligrams")
+		drop.grid(row=2, column=4)
 		
 		
 
