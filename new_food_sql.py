@@ -7,7 +7,7 @@ conn = sqlite3.connect("example.db")
 
 c = conn.cursor()
 
-c.execute('''CREATE TABLE foods
+c.execute('''CREATE TABLE IF NOT EXISTS foods
              (size real, size_unit text, cals real, vitA real, vit_unit text)''')
 
 def insert_food(size, size_unit, cals, vitA, vit_unit):
@@ -15,4 +15,4 @@ def insert_food(size, size_unit, cals, vitA, vit_unit):
 	food = [size, size_unit, cals, vitA, vit_unit]
 	c.execute('''INSERT INTO foods VALUES (?, ?, ?, ?, ?)''', food)
 	c.execute('SELECT * FROM foods')
-	print(c.fetchone())
+	print(c.fetchall())

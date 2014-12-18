@@ -6,6 +6,7 @@
 #CHANGE TO Tkinter FOR PYTHON 2
 from tkinter import *
 import new_food_sql as sql
+import random
 
 class NewFood:
 	
@@ -18,12 +19,19 @@ class NewFood:
 		
 		e = Button(frame, text="Enter", command=self.insert)
 		
+		self.bindings(frame)
+		
 		e.grid(row=2, column=5, padx=30)
-		
+	
+	def bindings(self, frame):
+		frame.bind("<Return>", self.insert)
+	
 	def insert(self):
-		sql.insert_food(6, "grams", 12, 23, "daily %")
+		sql.insert_food(random.randrange(300), "grams", random.randrange(40), random.randrange(20), "daily %")
 		
-		
+	
+	
+	
 	#sets up the labels row
 	def new_food_labels(self, frame):
 		l = Label(frame, text="Enter New Foods")
@@ -69,6 +77,5 @@ root = Tk()
 new_food = NewFood(root)
 
 
-mainloop()
 root.mainloop()
 #root.destroy() ONLY USE IF YOU MAKE YOUR OWN EXIT HANDLER!!
