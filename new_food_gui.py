@@ -78,4 +78,5 @@ new_food = NewFood(root)
 
 
 root.mainloop()
+sql.save_and_close()
 #root.destroy() ONLY USE IF YOU MAKE YOUR OWN EXIT HANDLER!!
