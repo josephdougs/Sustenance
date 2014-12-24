@@ -2,6 +2,7 @@
 #12/17/14
 
 from tkinter import *
+import sus_sql as sql
 
 NEWFOOD = 'NewFood'
 DAILYFOOD = 'DailyFood'
