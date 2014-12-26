@@ -1,6 +1,8 @@
 #Joey Smith and Minerva Chen
 #12/17/14
 
+#USE LAMBDAS TO BIND TO FUNCTIONS THAT TAKE ARGUMENTS!!
+
 from tkinter import *
 import sus_sql as sql
 
@@ -67,6 +69,8 @@ class TopLevel:
 		self.reset_top()
 		print("new_food")
 		
+		self.nutr_lst = []
+		
 		l = Label(self.top, text="Enter New Foods")
 		l.grid(row=0, column=0, pady=15)
 		
@@ -79,6 +83,7 @@ class TopLevel:
 		e.grid(row=2, column=1)
 		l = Label(self.top, text="grams")
 		l.grid(row=2, column=2)
+		self.nutr_lst.append(e)
 		
 		l = Label(self.top, text="Amount Per Serving")
 		l.grid(row=3, column=0)
@@ -91,6 +96,7 @@ class TopLevel:
 		en_unit.set("calories")
 		drop = OptionMenu(self.top, en_unit, "calories", "kiloJoules")
 		drop.grid(row=4, column=2)
+		self.nutr_lst.append(e)
 		
 		l = Label(self.top, text="Total Fat")
 		l.grid(row=5, column=0)
@@ -98,6 +104,7 @@ class TopLevel:
 		e.grid(row=5, column=1)
 		l = Label(self.top, text="grams")
 		l.grid(row=5, column=2)
+		self.nutr_lst.append(e)
 		
 		l = Label(self.top, text="Saturated Fat")
 		l.grid(row=6, column=0)
@@ -105,6 +112,7 @@ class TopLevel:
 		e.grid(row=6, column=1)
 		l = Label(self.top, text="grams")
 		l.grid(row=6, column=2)
+		self.nutr_lst.append(e)
 		
 		l = Label(self.top, text="Trans Fat")
 		l.grid(row=7, column=0)
@@ -112,6 +120,7 @@ class TopLevel:
 		e.grid(row=7, column=1)
 		l = Label(self.top, text="grams")
 		l.grid(row=7, column=2)
+		self.nutr_lst.append(e)
 		
 		l = Label(self.top, text="Polyunsaturated Fat")
 		l.grid(row=8, column=0)
@@ -119,76 +128,112 @@ class TopLevel:
 		e.grid(row=8, column=1)
 		l = Label(self.top, text="grams")
 		l.grid(row=8, column=2)
+		self.nutr_lst.append(e)
 		
-		l = Label(self.top, text="Cholesterol")
+		l = Label(self.top, text="Monounsaturated Fat")
 		l.grid(row=9, column=0)
 		e = Entry(self.top)
 		e.grid(row=9, column=1)
-		l = Label(self.top, text="milligrams")
+		l = Label(self.top, text="grams")
 		l.grid(row=9, column=2)
+		self.nutr_lst.append(e)
 		
-		l = Label(self.top, text="Sodium")
+		l = Label(self.top, text="Cholesterol")
 		l.grid(row=10, column=0)
 		e = Entry(self.top)
 		e.grid(row=10, column=1)
 		l = Label(self.top, text="milligrams")
 		l.grid(row=10, column=2)
+		self.nutr_lst.append(e)
 		
-		l = Label(self.top, text="Total Carbohydrate")
+		l = Label(self.top, text="Sodium")
 		l.grid(row=11, column=0)
 		e = Entry(self.top)
 		e.grid(row=11, column=1)
-		l = Label(self.top, text="grams")
+		l = Label(self.top, text="milligrams")
 		l.grid(row=11, column=2)
+		self.nutr_lst.append(e)
 		
-		l = Label(self.top, text="Dietary Fiber")
+		l = Label(self.top, text="Total Carbohydrate")
 		l.grid(row=12, column=0)
 		e = Entry(self.top)
 		e.grid(row=12, column=1)
 		l = Label(self.top, text="grams")
 		l.grid(row=12, column=2)
+		self.nutr_lst.append(e)
 		
-		l = Label(self.top, text="Sugars")
+		l = Label(self.top, text="Dietary Fiber")
 		l.grid(row=13, column=0)
 		e = Entry(self.top)
 		e.grid(row=13, column=1)
 		l = Label(self.top, text="grams")
 		l.grid(row=13, column=2)
+		self.nutr_lst.append(e)
 		
-		l = Label(self.top, text="Protein")
+		l = Label(self.top, text="Sugars")
 		l.grid(row=14, column=0)
 		e = Entry(self.top)
 		e.grid(row=14, column=1)
 		l = Label(self.top, text="grams")
 		l.grid(row=14, column=2)
+		self.nutr_lst.append(e)
 		
-		l = Label(self.top, text="Vitamin A")
+		l = Label(self.top, text="Protein")
 		l.grid(row=15, column=0)
 		e = Entry(self.top)
 		e.grid(row=15, column=1)
-		l = Label(self.top, text="%")
+		l = Label(self.top, text="grams")
 		l.grid(row=15, column=2)
+		self.nutr_lst.append(e)
 		
-		l = Label(self.top, text="Vitamin C")
-		l.grid(row=15, column=3)
-		e = Entry(self.top)
-		e.grid(row=15, column=4)
-		l = Label(self.top, text="%")
-		l.grid(row=15, column=5)
-		
-		l = Label(self.top, text="Calcium")
+		l = Label(self.top, text="Vitamin A")
 		l.grid(row=16, column=0)
 		e = Entry(self.top)
 		e.grid(row=16, column=1)
 		l = Label(self.top, text="%")
 		l.grid(row=16, column=2)
-		
-		l = Label(self.top, text="Iron")
+		self.nutr_lst.append(e)
+		 
+		l = Label(self.top, text="Vitamin C")
 		l.grid(row=16, column=3)
 		e = Entry(self.top)
 		e.grid(row=16, column=4)
 		l = Label(self.top, text="%")
 		l.grid(row=16, column=5)
+		self.nutr_lst.append(e)
+		
+		l = Label(self.top, text="Calcium")
+		l.grid(row=17, column=0)
+		e = Entry(self.top)
+		e.grid(row=17, column=1)
+		l = Label(self.top, text="%")
+		l.grid(row=17, column=2)
+		self.nutr_lst.append(e)
+		
+		l = Label(self.top, text="Iron")
+		l.grid(row=17, column=3)
+		e = Entry(self.top)
+		e.grid(row=17, column=4)
+		l = Label(self.top, text="%")
+		l.grid(row=17, column=5)
+		self.nutr_lst.append(e)
+		
+		b = Button(self.top, text="Enter", command= lambda: sql.insert_food(self.get_list_entries(self.nutr_lst, en_unit)))
+		b.grid(row=18, column=3)
+	
+	# returns a list of the strings inside each of the members of a list of Entry widgets
+	# also converts kiloJoules to food calories if necessary
+	def get_list_entries(self, lst, unit):
+		#SHOULD BE PYTHON 2.X COMPATIBLE, BUT DOUBLE CHECK
+		x = list(map(lambda x: x.get(), lst))
+		# converts kiloJoule energy to food calories
+		print(unit.get())
+		if unit.get() == "kiloJoules":
+			energy = float(x[1])
+			energy = 0.239 * energy
+			x[1] = str(energy)
+		print(x)
+		return x
 	
 	#sets up the daily food tab
 	def daily_food(self):
@@ -205,3 +250,4 @@ class TopLevel:
 if __name__ == "__main__":
 	t = TopLevel()
 	t.run()
+	sql.save_and_close()
