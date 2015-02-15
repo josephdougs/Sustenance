@@ -12,13 +12,13 @@ c = conn.cursor()
 
 #creates a new table if it does not exist yet
 c.execute('''CREATE TABLE IF NOT EXISTS foods
-             (serv_size real, cals real, tot_fat real, s_fat real, tr_fat real,
+             (name text, serv_size real, cals real, tot_fat real, s_fat real, tr_fat real,
 			 p_fat real, m_fat real, cholest real, sodium real, tot_carb real, fiber real, 
 			 sugars real, protein real, vit_a real, vit_c real, calcium real, iron real)''')
 			 
-def insert_food(new_food_list):
+def insert_new_food(new_food_list):
 	print("gumbosake")
-	c.execute('''INSERT INTO foods VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)''', new_food_list)
+	c.execute('''INSERT INTO foods VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?)''', new_food_list)
 	c.execute('SELECT * FROM foods')
 	print(c.fetchall())
 	

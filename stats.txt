@@ -2,20 +2,20 @@
 |  SPELUNKY EXTENDED STATS  |
 +---------------------------+
 
-CRATES OPENED:      0
-CHESTS OPENED:      1
+CRATES OPENED:      2
+CHESTS OPENED:      4
 
 IDOLS GRABBED:      4
 IDOLS CONVERTED:    1
 
-DAMSELS GRABBED:    0
-KISSES BOUGHT:      0
+DAMSELS GRABBED:    2
+KISSES BOUGHT:      1
 DAMSELS BOUGHT:     0
-DAMSELS SAVED:      0
+DAMSELS SAVED:      2
 DAMSELS KILLED:     0
 
 ITEMS BOUGHT:       2
-ITEMS STOLEN:       3
+ITEMS STOLEN:       7
 
 DICE GAMES PLAYED:  0
 DICE GAMES WON:     0
@@ -27,10 +27,10 @@ LEVEL        DEATHS
  2          | 0
  3          | 0
  4          | 0
- 5          | 2
- 6          | 2
+ 5          | 6
+ 6          | 4
  7          | 0
- 8          | 0
+ 8          | 1
  9          | 0
  10         | 0
  11         | 0
@@ -40,7 +40,7 @@ LEVEL        DEATHS
  15         | 0
  16         | 0
 ------------+------------
- TOTAL      | 4
+ TOTAL      | 11
 
 ENEMY        DEATHS
 ------------+------------
@@ -53,7 +53,7 @@ ENEMY        DEATHS
  ???        | 0
  ???        | 0
  ???        | 0
- ???        | 0
+ FIRE FROG  | 1
  ???        | 0
  PIRANHA    | 1
  ???        | 0
@@ -63,7 +63,7 @@ ENEMY        DEATHS
  ???        | 0
  ???        | 0
  ???        | 0
- SHOPKEEPER | 1
+ SHOPKEEPER | 2
  ???        | 0
  ???        | 0
  ???        | 0
@@ -75,10 +75,10 @@ MISC         DEATHS
  ???        | 0
  ???        | 0
  ???        | 0
+ SPIKES     | 3
  ???        | 0
  ???        | 0
- ???        | 0
- ???        | 0
+ SPEAR TRAP | 3
  ???        | 0
  ???        | 0
  ???        | 0
@@ -86,28 +86,28 @@ MISC         DEATHS
 
 ENEMY        KILLS
 ------------+------------
+ BAT        | 8
+ SNAKE      | 9
+ SPIDER     | 3
  ???        | 0
- SNAKE      | 4
- SPIDER     | 1
- ???        | 0
- CAVEMAN    | 1
- SKELETON   | 1
- ???        | 0
- ???        | 0
- FROG       | 6
- MONKEY     | 2
- FIRE FROG  | 3
+ CAVEMAN    | 4
+ SKELETON   | 4
  ???        | 0
  ???        | 0
- ???        | 0
- ???        | 0
+ FROG       | 18
+ MONKEY     | 7
+ FIRE FROG  | 8
+ MANTRAP    | 4
+ PIRANHA    | 1
  ???        | 0
  ???        | 0
  ???        | 0
  ???        | 0
  ???        | 0
  ???        | 0
+ ???        | 0
+ SHOPKEEPER | 1
  ???        | 0
  ???        | 0
 ------------+------------
- TOTAL      | 18
+ TOTAL      | 67

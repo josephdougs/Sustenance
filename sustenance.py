@@ -2,6 +2,7 @@
 #12/17/14
 
 from tkinter import *
+import sus_sql as sql
 
 NEWFOOD = 'NewFood'
 DAILYFOOD = 'DailyFood'
@@ -21,7 +22,7 @@ class TopLevel:
 		self.current_tab = 'NewFood'
 		
 		# set up a dict of the different tabs
-		self.tab_dict = {NEWFOOD : self.new_food, DAILYINFO : self.daily_food, DAILYEX : self.daily_ex}
+		self.tab_dict = {NEWFOOD : self.new_food, DAILYFOOD : self.daily_food}
 		
 		# place these two lines before any other method calls from __init__
 		self.top = Frame(self.root)
@@ -95,9 +96,11 @@ class TopLevel:
 		l = Label(self.top, text="Add New Foods")
 		#l.grid(row=1,column=1,padx=15,pady=15)
 		l.pack()
-		
+		print("catsman")
 		quick_entry = Entry(self.top)
 		quick_entry.pack()
+		b = Button(master, text="OK", command=callback)
+		b.pack()
 	# FINISH ME!!!
 	def basic_new_food(self):
 		print("basic new food")
