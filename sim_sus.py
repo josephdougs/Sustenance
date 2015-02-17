@@ -4,6 +4,7 @@
 #USE LAMBDAS TO BIND TO FUNCTIONS THAT TAKE ARGUMENTS!!
 
 from tkinter import *
+import tkinter.messagebox
 import sus_sql as sql
 
 NEWFOOD = 'NewFood'
@@ -74,7 +75,7 @@ class TopLevel:
 		l = Label(self.top, text="Enter New Foods")
 		l.grid(row=0, column=0, pady=15)
 		
-		l = Label(self.top, text="Name of Food")
+		l = Label(self.top, text="Name of Food *")
 		l.grid(row=1, column=0, pady=5)
 		e = Entry(self.top)
 		e.grid(row=1, column=1)
@@ -83,7 +84,7 @@ class TopLevel:
 		l = Label(self.top, text="Nutrition Facts")
 		l.grid(row=2, column=0)
 		
-		l = Label(self.top, text="Serving Size")
+		l = Label(self.top, text="Serving Size*")
 		l.grid(row=3, column=0)
 		e = Entry(self.top)
 		e.grid(row=3, column=1)
@@ -94,14 +95,17 @@ class TopLevel:
 		l = Label(self.top, text="Amount Per Serving")
 		l.grid(row=4, column=0)
 		
-		nutrition = ["Energy", "Total Fat", "Saturated Fat", "Trans Fat", "Polyunsaturated Fat", "Monounsaturated Fat", "Cholesterol", "Sodium", "Total Carbohydrate", "Dietary Fiber", "Sugars", "Protein"]
+		nutrition = ["Energy*", "Total Fat", "Saturated Fat", "Trans Fat", "Polyunsaturated Fat", "Monounsaturated Fat", "Cholesterol", "Sodium", "Total Carbohydrate", "Dietary Fiber", "Sugars", "Protein"]
 		
 		for i in range(len(nutrition)):
 			l = Label(self.top, text=nutrition[i])
 			l.grid(row=i+5, column=0)
 			e = Entry(self.top)
 			e.grid(row=i+5, column=1)
-			l = Label(self.top, text="grams")
+			if nutrition[i] == "Sodium" or nutrition[i] == "Cholesterol":
+				l = Label(self.top, text="milligrams")
+			else:
+				l = Label(self.top, text="grams")
 			l.grid(row=i+5, column=2)
 			self.nutr_lst.append(e)
 		
@@ -109,12 +113,6 @@ class TopLevel:
 		en_unit.set("calories")
 		drop = OptionMenu(self.top, en_unit, "calories", "kiloJoules")
 		drop.grid(row=5, column=2)
-		
-		l = Label(self.top, text="milligrams")
-		l.grid(row=12, column=2)
-		
-		l = Label(self.top, text="milligrams")
-		l.grid(row=13, column=2)
 		
 		l = Label(self.top, text="Vitamin A")
 		l.grid(row=18, column=0)
@@ -148,33 +146,44 @@ class TopLevel:
 		l.grid(row=19, column=5)
 		self.nutr_lst.append(e)
 		
+		l = Label(self.top, text="* Required field")
+		l.grid(row=21, column=1)
+		
 		for i in range(0, len(self.nutr_lst) - 1):
 			self.nutr_lst[i].bind("<Return>", lambda x: self.nutr_lst[i + 1].focus_set())
 		
 		# the button sends the command to insert the info into the food sql table
-		b = Button(self.top, text="Enter", command= lambda: sql.insert_new_food(self.get_new_food_entries(self.nutr_lst, en_unit)))
+		b = Button(self.top, text="Enter", command= lambda: self.test_and_enter(self.nutr_lst, en_unit))
 		b.grid(row=20, column=3)
 	
 	# returns a list of the strings inside each of the members of a list of Entry widgets
 	# also converts kiloJoules to food calories if necessary
 	def get_new_food_entries(self, lst, unit):
 		#SHOULD BE PYTHON 2.X COMPATIBLE, BUT DOUBLE CHECK
-		x = list(map(self.get_and_clear, lst))
-		# converts kiloJoule energy to food calories
-		print(unit.get())
-		if unit.get() == "kiloJoules":
-			energy = float(x[1])
-			energy = 0.239 * energy
-			x[1] = str(energy)
-		print(x)
-		return x
-	
-	# clears the text in a given textbox x and returns what was in it
-	def get_and_clear(self, x):
-		result = x.get()
-		x.delete(0, END) # deletes the text in each box
-		return result
+		# gets the info from the
+		print(lst)
+		info = list(map(lambda x: x.get(), lst))
+		print(info)
 		
+		# converts kiloJoule energy to food calories
+		if unit.get() == "kiloJoules" and info[2] != '':
+			energy = float(info[2])
+			energy = 0.239 * energy
+			info[2] = str(energy)
+		return info
+		
+	# tests if the required fields are filled and enters the info into the database if so
+	def test_and_enter(self, info, en_unit):
+		info = self.get_new_food_entries(self.nutr_lst, en_unit)
+		print(info)
+		if info[0] == '' or info[1] == '' or info[2] == '':
+			tkinter.messagebox.showwarning('Retry Entry', 'You must include "Name of Food", "Serving Size", and "Energy"')
+			# prevents entry into database
+			return
+		else:
+			# clears the text in the entry
+			map(lambda x: x.delete(0, END), self.nutr_lst)
+			sql.insert_new_food(info)
 	
 	#sets up the daily food tab
 	def daily_food(self):

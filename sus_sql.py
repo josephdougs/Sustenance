@@ -15,11 +15,12 @@ c.execute('''CREATE TABLE IF NOT EXISTS foods
              (name text, serv_size real, cals real, tot_fat real, s_fat real, tr_fat real,
 			 p_fat real, m_fat real, cholest real, sodium real, tot_carb real, fiber real, 
 			 sugars real, protein real, vit_a real, vit_c real, calcium real, iron real)''')
-			 
+	
+# inserts all the new foods into the foods table	
 def insert_new_food(new_food_list):
 	print("gumbosake")
 	c.execute('''INSERT INTO foods VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?)''', new_food_list)
-	c.execute('SELECT * FROM foods')
+	c.execute('SELECT * FROM foods WHERE name="dogfood"')
 	print(c.fetchall())
 	
 

@@ -3,12 +3,12 @@
 +---------------------------+
 
 CRATES OPENED:      2
-CHESTS OPENED:      4
+CHESTS OPENED:      5
 
 IDOLS GRABBED:      4
 IDOLS CONVERTED:    1
 
-DAMSELS GRABBED:    2
+DAMSELS GRABBED:    3
 KISSES BOUGHT:      1
 DAMSELS BOUGHT:     0
 DAMSELS SAVED:      2
@@ -27,7 +27,7 @@ LEVEL        DEATHS
  2          | 0
  3          | 0
  4          | 0
- 5          | 6
+ 5          | 7
  6          | 4
  7          | 0
  8          | 1
@@ -40,7 +40,7 @@ LEVEL        DEATHS
  15         | 0
  16         | 0
 ------------+------------
- TOTAL      | 11
+ TOTAL      | 12
 
 ENEMY        DEATHS
 ------------+------------
@@ -75,7 +75,7 @@ MISC         DEATHS
  ???        | 0
  ???        | 0
  ???        | 0
- SPIKES     | 3
+ SPIKES     | 4
  ???        | 0
  ???        | 0
  SPEAR TRAP | 3
@@ -86,7 +86,7 @@ MISC         DEATHS
 
 ENEMY        KILLS
 ------------+------------
- BAT        | 8
+ BAT        | 9
  SNAKE      | 9
  SPIDER     | 3
  ???        | 0
@@ -94,9 +94,9 @@ ENEMY        KILLS
  SKELETON   | 4
  ???        | 0
  ???        | 0
- FROG       | 18
- MONKEY     | 7
- FIRE FROG  | 8
+ FROG       | 19
+ MONKEY     | 8
+ FIRE FROG  | 9
  MANTRAP    | 4
  PIRANHA    | 1
  ???        | 0
@@ -110,4 +110,4 @@ ENEMY        KILLS
  ???        | 0
  ???        | 0
 ------------+------------
- TOTAL      | 67
+ TOTAL      | 71
