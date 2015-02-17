@@ -20,7 +20,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS foods
 def insert_new_food(new_food_list):
 	print("gumbosake")
 	c.execute('''INSERT INTO foods VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?)''', new_food_list)
-	c.execute('SELECT * FROM foods WHERE name="dogfood"')
+	c.execute('SELECT * FROM foods')
 	print(c.fetchall())
 	
 

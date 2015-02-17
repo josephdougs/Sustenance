@@ -21,8 +21,6 @@ class TopLevel:
 		#sets the title bar text
 		self.root.wm_title("Sustenance")
 		
-		# start in the current food tab
-		self.current_tab = 'NewFood'
 		
 		# set up a dict of the different tabs
 		self.tab_dict = {NEWFOOD : self.new_food, DAILYFOOD : self.daily_food, DAILYEX : self.daily_ex}
@@ -32,6 +30,9 @@ class TopLevel:
 		self.top.pack(ipadx=10, ipady=10)
 		
 		self.menu_bar()
+		
+		# start in the new food tab
+		self.new_food()
 	
 	# runs the gui code
 	def run(self):
@@ -88,8 +89,10 @@ class TopLevel:
 		l.grid(row=3, column=0)
 		e = Entry(self.top)
 		e.grid(row=3, column=1)
-		l = Label(self.top, text="grams")
-		l.grid(row=3, column=2)
+		s_unit = StringVar(self.top)
+		s_unit.set("grams")
+		drop = OptionMenu(self.top, s_unit, "grams", "ounces")
+		drop.grid(row=3, column=2)
 		self.nutr_lst.append(e)
 		
 		l = Label(self.top, text="Amount Per Serving")
@@ -149,32 +152,17 @@ class TopLevel:
 		l = Label(self.top, text="* Required field")
 		l.grid(row=21, column=1)
 		
-		for i in range(0, len(self.nutr_lst) - 1):
-			self.nutr_lst[i].bind("<Return>", lambda x: self.nutr_lst[i + 1].focus_set())
+		# IGNORE THIS FOR NOW, GET BACK TO IT LATER;  IS NOT ESSENTIAL
+		'''for i in range(0, len(self.nutr_lst) - 1):
+			self.nutr_lst[i].bind("<Return>", lambda x: self.nutr_lst[i + 1].focus_set())'''
 		
 		# the button sends the command to insert the info into the food sql table
-		b = Button(self.top, text="Enter", command= lambda: self.test_and_enter(self.nutr_lst, en_unit))
-		b.grid(row=20, column=3)
+		b = Button(self.top, text="Enter", command= lambda: self.test_and_enter(self.nutr_lst, s_unit, en_unit))
+		b.grid(row=20, column=2)
 	
-	# returns a list of the strings inside each of the members of a list of Entry widgets
-	# also converts kiloJoules to food calories if necessary
-	def get_new_food_entries(self, lst, unit):
-		#SHOULD BE PYTHON 2.X COMPATIBLE, BUT DOUBLE CHECK
-		# gets the info from the
-		print(lst)
-		info = list(map(lambda x: x.get(), lst))
-		print(info)
-		
-		# converts kiloJoule energy to food calories
-		if unit.get() == "kiloJoules" and info[2] != '':
-			energy = float(info[2])
-			energy = 0.239 * energy
-			info[2] = str(energy)
-		return info
-		
 	# tests if the required fields are filled and enters the info into the database if so
-	def test_and_enter(self, info, en_unit):
-		info = self.get_new_food_entries(self.nutr_lst, en_unit)
+	def test_and_enter(self, info, s_unit, en_unit):
+		info = self.get_new_food_entries(self.nutr_lst, s_unit, en_unit)
 		print(info)
 		if info[0] == '' or info[1] == '' or info[2] == '':
 			tkinter.messagebox.showwarning('Retry Entry', 'You must include "Name of Food", "Serving Size", and "Energy"')
@@ -184,6 +172,28 @@ class TopLevel:
 			# clears the text in the entry
 			map(lambda x: x.delete(0, END), self.nutr_lst)
 			sql.insert_new_food(info)
+	
+	# returns a list of the strings inside each of the members of a list of Entry widgets
+	# also converts units if necessary
+	def get_new_food_entries(self, lst, s_unit, en_unit):
+		#SHOULD BE PYTHON 2.X COMPATIBLE, BUT DOUBLE CHECK
+		# gets the info from the
+		print(lst)
+		info = list(map(lambda x: x.get(), lst))
+		print(info)
+		
+		if s_unit.get() == "ounces" and info[1] != '':
+			mass = float(info[1])
+			mass = 28.3495 * mass
+			info[1] = str(mass)
+		
+		# converts kiloJoule energy to food calories
+		if en_unit.get() == "kiloJoules" and info[2] != '':
+			energy = float(info[2])
+			energy = 0.239 * energy
+			info[2] = str(energy)
+		
+		return info
 	
 	#sets up the daily food tab
 	def daily_food(self):
