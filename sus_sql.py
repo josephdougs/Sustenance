@@ -36,6 +36,12 @@ def get_food(food_name):
 	c.execute('''SELECT * FROM foods WHERE name=?''', (food_name,))
 	return c.fetchone() # each food should have a unique name
 	
+def delete_food(food_name):
+	food_name = food_name.lower()
+	print("deleting the food")
+	print(food_name, "insql")
+	c.execute('''DELETE FROM foods WHERE name=?''', (food_name,))
+	
 def add_daily_food(year, month, day, food, amount):
 	print("adding daily food")
 	

@@ -203,22 +203,30 @@ class TopLevel:
 	# tests if the required fields are filled and enters the info into the database if so
 	def test_and_enter(self, info, s_unit, en_unit):
 		info = self.get_new_food_entries(info, s_unit, en_unit)
-		
-		test = sql.get_food(info[0])		
-		if test != None:
-			text = 'Retry Entry', 'Food "' + info[0] + '" is already present in the database.\n'
-			text += 'Its information is:\n'
-			text += 'Serving size: ' + test[1] + 'Energy: ' + test[2] + '(in calories)'
-			answer = tkinter.messagebox.askyesno(text)
 			
 		print(info)
+		
 		if info[0] == '' or info[1] == '' or info[2] == '':
 			tkinter.messagebox.showwarning('Retry Entry', 'You must include "Name of Food", "Serving Size", and "Energy"')
 			# prevents entry into database
 			return
 		else:
+			test = sql.get_food(info[0])
+			answer = False
+			if test != None:
+				text = 'Food "' + info[0] + '" is already present in the database.\n'
+				text += 'Its information is:\n'
+				text += 'Serving size: ' + str(test[1]) + '; Energy: ' + str(test[2]) + ' (calories)\n\n'
+				text += 'Would you like to overwrite this food? (Older entry will be lost)'
+				answer = tkinter.messagebox.askyesno('Overwrite?', text)
+				if answer: # answer is true if user says 'yes'
+					sql.delete_food(info[0])
+				else:
+					return # prevents entry into database if user does not want to overwrite
 			# clears the text in the entry
-			map(lambda x: x.delete(0, END), self.nutr_lst)
+			print("HERE YOOOO!!")
+			print(self.nutr_lst)
+			list(map(lambda x: x.delete(0, END), self.nutr_lst)) # map on its own just returns an iterator, list evaluates it
 			sql.insert_new_food(info)
 	
 	# returns a list of the strings inside each of the members of a list of Entry widgets
