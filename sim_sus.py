@@ -3,6 +3,39 @@
 
 #USE LAMBDAS TO BIND TO FUNCTIONS THAT TAKE ARGUMENTS!!
 
+"""On the organization of this code:
+	
+	You are currently looking at the main module for this project, so if you are trying to
+	understand this code, you are looking in the right place.
+	
+	The code is currently divided into two modules.  This one, 'sim_sus.py', is the main 
+	module that handles all GUI stuff and also some data conversions.
+	The other module, 'sus_sql.py' handles interactions	with the sqlite3 database.
+	
+	This module is organized as a class (TopLevel).  The class '__init__' method of the class
+	sets up the basics for the GUI, and the 'run' method runs the tkinter mainloop, which
+	is what actually starts running the tkinter GUI.
+	
+	This program has several sections, each with a different functionality.  The user may select
+	these sections using the menubar at the top of the GUI.  The sections are currently 'New Foods',
+	'Daily Foods', and 'Daily Exercise'.  Not all of these are currently finished, and more may be
+	added later.
+	
+	'New Foods' is where the user enters nutritional information about foods that they have eaten
+	for the first time.  The foods must have a UNIQUE name.  This is important as it is how the
+	program identifies them later.
+	
+	'Daily Foods' is where the user enters what foods and how much of each they have eaten that
+	day.
+	
+	'Daily Exercise' is where the user enters how and how much they exercised that day.
+	
+	Other methods are typically helpers for each of theses sections.
+
+
+"""
+
+
 '''
 REMINDER OF ORDER
 (name text, serv_size real, cals real, tot_fat real, s_fat real, tr_fat real,
@@ -169,7 +202,15 @@ class TopLevel:
 	
 	# tests if the required fields are filled and enters the info into the database if so
 	def test_and_enter(self, info, s_unit, en_unit):
-		info = self.get_new_food_entries(self.nutr_lst, s_unit, en_unit)
+		info = self.get_new_food_entries(info, s_unit, en_unit)
+		
+		test = sql.get_food(info[0])		
+		if test != None:
+			text = 'Retry Entry', 'Food "' + info[0] + '" is already present in the database.\n'
+			text += 'Its information is:\n'
+			text += 'Serving size: ' + test[1] + 'Energy: ' + test[2] + '(in calories)'
+			answer = tkinter.messagebox.askyesno(text)
+			
 		print(info)
 		if info[0] == '' or info[1] == '' or info[2] == '':
 			tkinter.messagebox.showwarning('Retry Entry', 'You must include "Name of Food", "Serving Size", and "Energy"')
@@ -245,12 +286,16 @@ class TopLevel:
 Check the spelling or enter the food into the database using the
 "New Foods" tab.''')
 			return # MAKE SURE THIS DOES NOT HAVE TO RETURN ANYTHING
+		
 		food = list(food) # converts food from a tuple to a list
+		
 		# turns amount into a number of servings
 		if unit == "grams":
 			amount = food[1] / float(amount) #CHECK FOR DIVIDE BY ZERO?
 		elif unit == "ounces": #CHECK THIS ONE
 			amount = food[1] / (28.3495 * float(amount))
+		else:
+			amount = float(amount)
 		
 	
 	# sets up the daily exercise tab
