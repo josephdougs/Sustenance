@@ -19,9 +19,19 @@ c.execute('''CREATE TABLE IF NOT EXISTS foods
 # inserts all the new foods into the foods table	
 def insert_new_food(new_food_list):
 	print("gumbosake")
+	new_food_list[0] = new_food_list[0].lower() # makes all sql entries lowercase
 	c.execute('''INSERT INTO foods VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?)''', new_food_list)
 	c.execute('SELECT * FROM foods')
 	print(c.fetchall())
+	
+# returns a tuple containing the data on the given food
+def get_food(food_name):
+	food_name = food_name.lower()
+	print("getting the food")
+	print(food_name, "insql")
+	# food_name must be in a tuple because otherwise it (being a string) will be seen as a list
+	c.execute('''SELECT * FROM foods WHERE name=?''', (food_name,))
+	return c.fetchone()
 	
 
 def save_and_close():

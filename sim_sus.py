@@ -3,6 +3,13 @@
 
 #USE LAMBDAS TO BIND TO FUNCTIONS THAT TAKE ARGUMENTS!!
 
+'''
+REMINDER OF ORDER
+(name text, serv_size real, cals real, tot_fat real, s_fat real, tr_fat real,
+			 p_fat real, m_fat real, cholest real, sodium real, tot_carb real, fiber real, 
+			 sugars real, protein real, vit_a real, vit_c real, calcium real, iron real)'''
+
+
 from tkinter import *
 import tkinter.messagebox
 import sus_sql as sql
@@ -157,7 +164,7 @@ class TopLevel:
 			self.nutr_lst[i].bind("<Return>", lambda x: self.nutr_lst[i + 1].focus_set())'''
 		
 		# the button sends the command to insert the info into the food sql table
-		b = Button(self.top, text="Enter", command= lambda: self.test_and_enter(self.nutr_lst, s_unit, en_unit))
+		b = Button(self.top, text="Enter", command= lambda: self.test_and_enter(self.nutr_lst, s_unit.get(), en_unit.get()))
 		b.grid(row=20, column=2)
 	
 	# tests if the required fields are filled and enters the info into the database if so
@@ -182,13 +189,13 @@ class TopLevel:
 		info = list(map(lambda x: x.get(), lst))
 		print(info)
 		
-		if s_unit.get() == "ounces" and info[1] != '':
+		if s_unit == "ounces" and info[1] != '':
 			mass = float(info[1])
 			mass = 28.3495 * mass
 			info[1] = str(mass)
 		
 		# converts kiloJoule energy to food calories
-		if en_unit.get() == "kiloJoules" and info[2] != '':
+		if en_unit == "kiloJoules" and info[2] != '':
 			energy = float(info[2])
 			energy = 0.239 * energy
 			info[2] = str(energy)
@@ -197,9 +204,54 @@ class TopLevel:
 	
 	#sets up the daily food tab
 	def daily_food(self):
+		
 		self.current_tab = DAILYFOOD
 		self.reset_top()
 		print("daily_food")
+		
+		l = Label(self.top, text="Enter Today's Foods")
+		l.grid(row=0, column=0, pady=15)
+		
+		l = Label(self.top, text="Name of Food")
+		l.grid(row=1, column=0, pady=5)
+		name_e = Entry(self.top)
+		name_e.grid(row=1, column=1)
+		
+		l = Label(self.top, text="Amount")
+		l.grid(row=1, column=3, pady=5)
+		am_e = Entry(self.top)
+		am_e.grid(row=1, column=4)
+		a_unit = StringVar(self.top)
+		a_unit.set("grams")
+		drop = OptionMenu(self.top, a_unit, "grams", "ounces", "servings")
+		drop.grid(row=1, column=5, padx=15)
+		
+		lb = Listbox(self.top, height=35, width=100)
+		lb.grid(row=2, column=1, columnspan=5, padx=15)
+		
+		add = Button(self.top, text="Add", command= lambda: self.add_list_food(name_e.get(), am_e.get(), a_unit.get(), lb))
+		add.grid(row=1, column=6)
+	
+	# checks that the food exists and if it does, adds it to the listbox
+	def add_list_food(self, name, amount, unit, lb):
+		# DO A TEST TO SEE IF ANY ARE EMPTY!!!
+		if name == '' or amount == '':
+			tkinter.messagebox.showwarning('Retry Entry', 'Please include both the name of the food and how much of it you ate.')
+			return
+		print(name)
+		food = sql.get_food(name)
+		if food == None:
+			tkinter.messagebox.showwarning('Retry Entry', 'Food: "' + name + '''" does not appear to exist in the database.
+Check the spelling or enter the food into the database using the
+"New Foods" tab.''')
+			return # MAKE SURE THIS DOES NOT HAVE TO RETURN ANYTHING
+		food = list(food) # converts food from a tuple to a list
+		# turns amount into a number of servings
+		if unit == "grams":
+			amount = food[1] / float(amount) #CHECK FOR DIVIDE BY ZERO?
+		elif unit == "ounces": #CHECK THIS ONE
+			amount = food[1] / (28.3495 * float(amount))
+		
 	
 	# sets up the daily exercise tab
 	def daily_ex(self):

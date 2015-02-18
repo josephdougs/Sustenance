@@ -2,11 +2,11 @@
 |  SPELUNKY EXTENDED STATS  |
 +---------------------------+
 
-CRATES OPENED:      2
+CRATES OPENED:      6
 CHESTS OPENED:      5
 
-IDOLS GRABBED:      4
-IDOLS CONVERTED:    1
+IDOLS GRABBED:      6
+IDOLS CONVERTED:    2
 
 DAMSELS GRABBED:    3
 KISSES BOUGHT:      1
@@ -29,7 +29,7 @@ LEVEL        DEATHS
  4          | 0
  5          | 7
  6          | 4
- 7          | 0
+ 7          | 1
  8          | 1
  9          | 0
  10         | 0
@@ -40,7 +40,7 @@ LEVEL        DEATHS
  15         | 0
  16         | 0
 ------------+------------
- TOTAL      | 12
+ TOTAL      | 13
 
 ENEMY        DEATHS
 ------------+------------
@@ -90,16 +90,16 @@ ENEMY        KILLS
  SNAKE      | 9
  SPIDER     | 3
  ???        | 0
- CAVEMAN    | 4
+ CAVEMAN    | 5
  SKELETON   | 4
- ???        | 0
- ???        | 0
- FROG       | 19
+ ZOMBIE     | 2
+ VAMPIRE    | 2
+ FROG       | 20
  MONKEY     | 8
  FIRE FROG  | 9
  MANTRAP    | 4
- PIRANHA    | 1
- ???        | 0
+ PIRANHA    | 4
+ MEGAMOUTH  | 1
  ???        | 0
  ???        | 0
  ???        | 0
@@ -110,4 +110,4 @@ ENEMY        KILLS
  ???        | 0
  ???        | 0
 ------------+------------
- TOTAL      | 71
+ TOTAL      | 81
