@@ -211,7 +211,7 @@ class TopLevel:
 			# prevents entry into database
 			return
 		else:
-			test = sql.get_food(info[0])
+			test = sql.get_food(info[0]) # test will be None if it is not in the database already
 			answer = False
 			if test != None:
 				text = 'Food "' + info[0] + '" is already present in the database.\n'
@@ -223,9 +223,8 @@ class TopLevel:
 					sql.delete_food(info[0])
 				else:
 					return # prevents entry into database if user does not want to overwrite
+				
 			# clears the text in the entry
-			print("HERE YOOOO!!")
-			print(self.nutr_lst)
 			list(map(lambda x: x.delete(0, END), self.nutr_lst)) # map on its own just returns an iterator, list evaluates it
 			sql.insert_new_food(info)
 	
