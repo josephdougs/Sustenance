@@ -16,6 +16,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS foods
 			 p_fat REAL, m_fat REAL, cholest REAL, sodium REAL, tot_carb REAL, fiber REAL, 
 			 sugars REAL, protein REAL, vit_a REAL, vit_c REAL, calcium REAL, iron REAL)''')
 			 
+ # amount should be saved in number of servings
 c.execute('''CREATE TABLE IF NOT EXISTS daily_food
              (year INTEGER, month INTEGER, day INTEGER, food TEXT, amount REAL)''')
 	
@@ -35,17 +36,24 @@ def get_food(food_name):
 	# food_name must be in a tuple because otherwise it (being a string) will be seen as a list
 	c.execute('''SELECT * FROM foods WHERE name=?''', (food_name,))
 	return c.fetchone() # each food should have a unique name
-	
+
+# deletes a food from the food table
 def delete_food(food_name):
 	food_name = food_name.lower()
 	print("deleting the food")
 	print(food_name, "insql")
+	# food_name must be in a tuple because otherwise it (being a string) will be seen as a list
 	c.execute('''DELETE FROM foods WHERE name=?''', (food_name,))
 	
+# adds a food and amount to the daily_food table
 def add_daily_food(year, month, day, food, amount):
 	print("adding daily food")
-	
-	
+	values = [year, month, day, food, amount]
+	print(values)
+	print(list(map(type,values)))
+	c.execute('''INSERT INTO daily_food VALUES (?, ?, ?, ?, ?)''', values)
+	c.execute('SELECT * FROM daily_food')
+	print(c.fetchall())
 
 def save_and_close():
 	conn.commit()

@@ -35,6 +35,7 @@
 
 """
 
+
 '''
 REMINDER OF ORDER
 (name text, serv_size real, cals real, tot_fat real, s_fat real, tr_fat real,
@@ -45,7 +46,6 @@ REMINDER OF ORDER
 from tkinter import *
 import tkinter.messagebox
 import sus_sql as sql
-import datetime
 
 NEWFOOD = 'NewFood'
 DAILYFOOD = 'DailyFood'
@@ -57,7 +57,7 @@ class TopLevel:
 	def __init__(self):
 		self.root = Tk()
 		#sets size of window to 800px by 800px
-		self.root.geometry("840x800")
+		self.root.geometry("800x800")
 		#sets the title bar text
 		self.root.wm_title("Sustenance")
 		
@@ -261,12 +261,12 @@ class TopLevel:
 		l.grid(row=0, column=0, pady=15)
 		
 		l = Label(self.top, text="Name of Food")
-		l.grid(row=1, column=0, pady=5, padx=0)
+		l.grid(row=1, column=0, pady=5)
 		name_e = Entry(self.top)
 		name_e.grid(row=1, column=1)
 		
 		l = Label(self.top, text="Amount")
-		l.grid(row=1, column=2, pady=5, padx=0)
+		l.grid(row=1, column=2, pady=5)
 		am_e = Entry(self.top)
 		am_e.grid(row=1, column=3)
 		a_unit = StringVar(self.top)
@@ -274,31 +274,18 @@ class TopLevel:
 		drop = OptionMenu(self.top, a_unit, "grams", "ounces", "servings")
 		drop.grid(row=1, column=4, padx=0)
 		
-		lb = Listbox(self.top, height=35, width=135)
+		lb = Listbox(self.top, height=35, width=125)
 			
-		lb.grid(row=2, column=0, columnspan=8, padx=15)
+		lb.grid(row=2, column=0, columnspan=5, padx=15)
 		
-		self.food_list = [] # makes a new field to be filled with food names and amounts
-		
-		add = Button(self.top, text="Add", command= lambda: self.add_list_food(name_e, am_e, a_unit, lb))
+		add = Button(self.top, text="Add", command= lambda: self.add_list_food(name_e.get(), am_e.get(), a_unit.get(), lb))
 		add.grid(row=1, column=6)
 		
-		remove = Button(self.top, text="Remove Selected Entry", command= lambda: self.remove_entry(lb)) #CHANGE THIS COMMAND SOON
-		remove.grid(row=3, column=1)
-		
-		enter = Button(self.top, text="Enter into database", command= lambda: self.enter_daily_foods(lb)) #CHANGE THIS COMMAND SOON
-		enter.grid(row=3, column=4)
+		remove = Button(self.top, text="Remove Selected Entry", command= lambda: 3) #CHANGE THIS COMMAND SOON
 	
 	# checks that the food exists and if it does, adds it to the listbox
-	def add_list_food(self, name_e, am_e, a_unit, lb):
+	def add_list_food(self, name, amount, unit, lb):
 		# DO A TEST TO SEE IF ANY ARE EMPTY!!!
-		name = name_e.get()
-		amount = am_e.get()
-		unit = a_unit.get()
-		
-		name_e.delete(0, END)
-		am_e.delete(0, END)
-		
 		if name == '' or amount == '':
 			tkinter.messagebox.showwarning('Retry Entry', 'Please include both the name of the food and how much of it you ate.')
 			return
@@ -314,62 +301,14 @@ Check the spelling or enter the food into the database using the
 		
 		# turns amount into a number of servings
 		if unit == "grams":
-			amount = float(amount) / food[1] #CHECK FOR DIVIDE BY ZERO?
+			amount = food[1] / float(amount) #CHECK FOR DIVIDE BY ZERO?
 		elif unit == "ounces": #CHECK THIS ONE
-			amount = (28.3495 * float(amount)) / food[1]
+			amount = food[1] / (28.3495 * float(amount))
 		else:
 			amount = float(amount)
+
+		print("This is the food you requested", food)
 		
-		
-		# converts nutrition info to the amount actually eaten
-		for i in range(1, len(food) - 4):
-			if food[i] != '': # the element is not empty
-				food[i] = int(amount * food[i])
-		
-		'''
-		REMINDER OF ORDER
-		(name text, serv_size real, cals real, tot_fat real, s_fat real, tr_fat real,
-					 p_fat real, m_fat real, cholest real, sodium real, tot_carb real, fiber real, 
-					 sugars real, protein real, vit_a real, vit_c real, calcium real, iron real)'''
-				
-		
-		food = list(map(str, food)) # converts food elements to strings
-		
-		text = food[0] + " | amount: " + food[1] + "g | " + food[2] + " calories: " + food[3] + "g | fat: " + food[4] + "g | cholest: " + food[9] + "mg | sodium: " + food[10] + "mg | tot_carb: " + food[11] + "g | protein: " + food[14] + "g"
-		
-		lb.insert(END, text)
-		
-		self.food_list.append([name, amount])
-		
-	# removes the daily fodo entry from the list in the data and the gui
-	def remove_entry(self, lb):		
-		# gets the index of the currently selected item
-		index = lb.curselection()
-		if index == ():
-			return
-		else:
-			index = index[0]
-		
-		del self.food_list[index] # removes the currently selected item from the data list
-		
-		lb.delete(ANCHOR) # deletes the currently selected item from the visual list
-		
-	# puts the daily foods in the listbox into the database	
-	def enter_daily_foods(self, lb):
-		lb.delete(0, END)
-		
-		date = datetime.datetime.now()
-		year = date.year
-		month = date.month
-		day = date.day
-		
-		for e in self.food_list:
-			name = e[0]
-			amount = e[1]
-			print("name", name, "; amount", amount)
-			sql.add_daily_food(year, month, day, name, amount)
-		
-		self.food_list = []
 	
 	# sets up the daily exercise tab
 	def daily_ex(self):
