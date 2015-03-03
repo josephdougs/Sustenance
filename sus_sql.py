@@ -54,6 +54,10 @@ def add_daily_food(year, month, day, food, amount):
 	c.execute('''INSERT INTO daily_food VALUES (?, ?, ?, ?, ?)''', values)
 	c.execute('SELECT * FROM daily_food')
 	print(c.fetchall())
+	
+	
+def test():
+	c.execute('''SELECT * FROM foods WHERE ''')
 
 def save_and_close():
 	conn.commit()

@@ -50,6 +50,7 @@ import datetime
 NEWFOOD = 'NewFood'
 DAILYFOOD = 'DailyFood'
 DAILYEX = 'DailyEx'
+REVIEW_F = 'ReviewFoods'
 
 # a top level class used to keep things organized
 class TopLevel:
@@ -63,7 +64,7 @@ class TopLevel:
 		
 		
 		# set up a dict of the different tabs
-		self.tab_dict = {NEWFOOD : self.new_food, DAILYFOOD : self.daily_food, DAILYEX : self.daily_ex}
+		self.tab_dict = {NEWFOOD : self.new_food, DAILYFOOD : self.daily_food, DAILYEX : self.daily_ex, REVIEW_F : self.review_foods}
 		
 		# place these two lines before any other method calls from __init__
 		self.top = Frame(self.root)
@@ -85,6 +86,7 @@ class TopLevel:
 		menubar.add_command(label="New Foods", command=self.new_food)
 		menubar.add_command(label="Daily Food", command=self.daily_food)
 		menubar.add_command(label="Daily Exercise", command=self.daily_ex)
+		menubar.add_command(label="Review Foods", command=self.review_foods)
 		
 		self.root.config(menu=menubar)
 	
@@ -252,7 +254,6 @@ class TopLevel:
 	
 	#sets up the daily food tab
 	def daily_food(self):
-		
 		self.current_tab = DAILYFOOD
 		self.reset_top()
 		print("daily_food")
@@ -328,14 +329,15 @@ Check the spelling or enter the food into the database using the
 		
 		'''
 		REMINDER OF ORDER
-		(name text, serv_size real, cals real, tot_fat real, s_fat real, tr_fat real,
-					 p_fat real, m_fat real, cholest real, sodium real, tot_carb real, fiber real, 
-					 sugars real, protein real, vit_a real, vit_c real, calcium real, iron real)'''
+		(name text 0, serv_size real 1, cals real 2, tot_fat real 3, s_fat real 4, tr_fat real 5,
+					 p_fat real 6, m_fat real 7, cholest real 8, sodium real 9, tot_carb real 10, fiber real 11, 
+					 sugars real 12, protein real 13, vit_a real 14, vit_c real 15, calcium real 16, iron real 17)'''
 				
 		
 		food = list(map(str, food)) # converts food elements to strings
 		
-		text = food[0] + " | amount: " + food[1] + "g | " + food[2] + " calories: " + food[3] + "g | fat: " + food[4] + "g | cholest: " + food[9] + "mg | sodium: " + food[10] + "mg | tot_carb: " + food[11] + "g | protein: " + food[14] + "g"
+		text = food[0] + " | amount: " + food[1] + "g | calories: " + food[2] + " | fat: "
+		text += food[3] + "g | cholest: " + food[8] + "mg | sodium: " + food[9] + "mg | tot_carb: " + food[10] + "g | protein: " + food[13] + "g"
 		
 		lb.insert(END, text)
 		
@@ -376,6 +378,44 @@ Check the spelling or enter the food into the database using the
 		self.current_tab = DAILYEX
 		self.reset_top()
 		print("daily_ex")
+		
+	def review_foods(self):
+		self.current_tab = REVIEW_F
+		self.reset_top()
+		print("review foods")
+		
+		l = Label(self.top, text="Review a day's foods")
+		l.grid(row=0, column=0, pady=15)
+		
+		month = StringVar(self.top)
+		month.set("January")
+		drop = OptionMenu(self.top, a_unit, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+		drop.grid(row=1, column=0, padx=0)
+		
+		l = Label(self.top, text="Day")
+		l.grid(row=1, column=0, pady=5, padx=0)
+		day = Entry(self.top)
+		day.grid(row=1, column=1)
+		
+		l = Label(self.top, text="Year")
+		l.grid(row=1, column=2, pady=5, padx=0)
+		year = Entry(self.top)
+		year.grid(row=1, column=3)
+		
+		
+		lb = Listbox(self.top, height=35, width=135)
+			
+		lb.grid(row=2, column=0, columnspan=8, padx=15)
+		
+		
+		add = Button(self.top, text="Add", command= lambda: self.add_list_food(name_e, am_e, a_unit, lb))
+		add.grid(row=1, column=6)
+		
+		remove = Button(self.top, text="Remove Selected Entry", command= lambda: self.remove_entry(lb)) #CHANGE THIS COMMAND SOON
+		remove.grid(row=3, column=1)
+		
+		enter = Button(self.top, text="Enter into database", command= lambda: self.enter_daily_foods(lb)) #CHANGE THIS COMMAND SOON
+		enter.grid(row=3, column=4)
 		
 	
 if __name__ == "__main__":
