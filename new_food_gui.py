@@ -1,8 +1,6 @@
 #Joey Smith and Minerva Chen
 #12/16/14
 
-#add Joules in for those crazy foreigners hahaha
-
 #CHANGE TO Tkinter FOR PYTHON 2
 from tkinter import *
 import new_food_sql as sql
